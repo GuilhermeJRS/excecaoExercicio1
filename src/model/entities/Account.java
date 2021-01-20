@@ -1,5 +1,7 @@
 package model.entities;
 
+import domain.exceptions.DomainException;
+
 public class Account { 
 	
 	private Integer number;
@@ -45,15 +47,15 @@ public class Account {
 	
 	public void withdraw(Double amount) {
 		if (amount > withdrawLimit) {
-			System.out.println("Withdraw error: The amount(" + String.format("%.2f", amount) + 
+			throw new DomainException("Withdraw error: The amount(" + String.format("%.2f", amount) + 
 					") exceeds withdraw limit(" + String.format("%.2f", withdrawLimit) + ")");
 		} else if (amount > balance) {
-			System.out.println("Withdraw error: Not enough balance(" + String.format("%.2f", balance) +
-					") amount(" + String.format("%.2f", amount));
-		} else {
-			balance -= amount;
-			System.out.println("New balance: " + String.format("%.2f", balance));
-		}
+			throw new DomainException("Withdraw error: Not enough balance(" + String.format("%.2f", balance) +
+					") amount(" + String.format("%.2f", amount) + ")");
+		} 
+		
+		balance -= amount;
+		System.out.println("New balance: " + String.format("%.2f", balance));
 	}
 
 }
